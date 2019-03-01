@@ -14,6 +14,7 @@
 
 avr_t * avr = NULL;
 avr_vcd_t vcd_file;
+avr_twi_t twi_port;
 
 int main(int argc, char *argv[])
 {
@@ -32,7 +33,8 @@ int main(int argc, char *argv[])
   }
   avr_init(avr);
   avr_load_firmware(avr, &f);
-
+  avr_twi_init(avr, &twi_port);
+  
   avr->gdb_port = 1234;
 
   avr_vcd_init(avr, "gtkwave_output.vcd", &vcd_file, 100000 /* usec */);
