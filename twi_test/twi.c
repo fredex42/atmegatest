@@ -37,6 +37,23 @@ ISR(TWI_vect){
     case 0xA0:  //STOP condition or repeated START condition received
       TWCR = TWCR | 0xC0 & 0xCF; //set the TWEA bit, clear STA and STO to switch to not-addressed-listening
       break;
+    //slave transmitter codes
+    case 0xA8:  //own address has been received, ACK returned, need data byte.
+      TWDR = twi_data_byte;
+      TWCR = (1 << TWINT) | (0 << TWEA);  //this is the last data byte so TWEA should be 0
+      break;
+    case 0xB0:  //arbitration lost, then addressed for read
+      break;
+    case 0xB8:  //data byte transmitted, ACK received, load next byte.
+      //not needed when only working one-byte
+      break;
+    case 0xC0:  //data byte transmitted, NOT ACK received, stop
+      TWCR = (1 << TWINT) | (1 << TWEA);  //switch to not addressed slave mode, will recognise own address
+      break;
+    case 0xC8:  //last data byte transmitted, ACK received.
+      TWCR = (1 << TWINT) | (1 << TWEA);  //switch to not addressed slave mode, will recognise own address
+      break;
+
     default:
       break;
   }
