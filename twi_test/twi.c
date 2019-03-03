@@ -1,11 +1,10 @@
-// see http://www.avr-tutorials.com/interrupts/avr-external-interrupt-c-programming
-
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
 #define F_CPU 8000000UL
 #include <util/delay.h>
-#define I2CADDRESS	0x01
+
+#define I2CADDRESS 0x01
 
 #ifdef SIMULATOR
 #include "avr/avr_mcu_section.h"  //need to ensure that simavr includes are on the path, e.g. pkg-config --cflags simavr
@@ -21,9 +20,10 @@ const struct avr_mmcu_vcd_trace_t _mytrace[]  _MMCU_ = {
 };
 #endif
 
-int is_running=1;
+int8_t is_running=1;
 
 //see https://www.nongnu.org/avr-libc/user-manual/group__avr__interrupts.html
+//service the TWI (===I2C) interrupt
 ISR(TWI_vect){
   switch(TWSR){
     //slave receiver codes
@@ -65,22 +65,4 @@ void setup_twi(){
   //set up Two-Wire Control Register
   TWCR = TWCR | 0xC4;  // 0xC4 = 11000100b, enable interrupt, enable acknowlege, enable TWI
   _delay_ms(50);
-}
-
-int main(void){
-  sei();
-
-  setup_twi();
-
-  DDRC = 0x01;                       // initialize port C
-  while(1)
-  {
-      // LED on
-      if(is_running) PORTC = 0b00000001;            // PC0 = High = Vcc
-      _delay_ms(50);                // wait 500 milliseconds
-
-      //LED off
-      if(is_running) PORTC = 0b00000000;            // PC0 = Low = 0v
-      _delay_ms(50);                // wait 500 milliseconds
-  }
 }
