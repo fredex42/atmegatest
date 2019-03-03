@@ -1,7 +1,12 @@
 MMCU_TYPE = atmega48
 CFLAGS = `pkg-config --cflags simavr` -D SIMULATOR
 
-all: third_test.hex test_pwm.hex
+all: third_test.hex test_pwm.hex testharness
+
+.PHONY: testharness
+
+testharness:
+	make -C testharness
 
 main.o: main.c
 	avr-gcc -g -Os -mmcu=$(MMCU_TYPE) $(CFLAGS) -c main.c
@@ -23,3 +28,4 @@ test_pwm.hex: test_pwm.elf
 
 clean:
 	rm -f *.o *.elf *.hex
+	make -C testharness clean

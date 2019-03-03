@@ -16,6 +16,15 @@ avr_t * avr = NULL;
 avr_vcd_t vcd_file;
 avr_twi_t twi_port;
 
+/**
+*  called from a timer to send disable command via TWO
+*/
+long unsigned int disable_timer_proc(avr_t *avr, long unsigned int clock, void *param)
+{
+    printf("disable_timer_proc: %lu", clock);
+    return 0;
+}
+
 int main(int argc, char *argv[])
 {
   elf_firmware_t f;
@@ -44,6 +53,7 @@ int main(int argc, char *argv[])
      "TWSR"
    );
 
+   avr_cycle_timer_register(avr, 10, &disable_timer_proc, NULL);
    printf( "\nLaunching:\n");
 
 	int state = cpu_Running;
