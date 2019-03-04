@@ -7,8 +7,7 @@
 #define I2CADDRESS 0x01
 #include "twi.h"
 
-int8_t twi_data_byte=0x04;
-
+int8_t twi_data_byte=0x04;  //initial value, so something shows up on the port (third LED lit)
 
 //see https://www.nongnu.org/avr-libc/user-manual/group__avr__interrupts.html
 //service the TWI (===I2C) interrupt
@@ -16,9 +15,10 @@ ISR(TWI_vect){
   switch(TWSR){
     //slave receiver codes
     case 0x60:  //own address has been received, wake-up
-      TWCR = TWCR | 0xC0; //set TWEA bit to ACK incoming byte
+      TWCR = (1<<TWINT) | (1 << TWEA) | (1<<TWEN); //set TWEA bit to ACK incoming byte
       break;
     case 0x68:  //arbitration lost, own address received
+      TWCR = (1<<TWINT) | (1<<TWEN);
       break;
     case 0x70:  //general call address received
       break;
@@ -26,7 +26,7 @@ ISR(TWI_vect){
       break;
     case 0x80:  //own call address received, data ready, ACKED
       twi_data_byte = TWDR;  //receive data register into the is_running flag
-      TWCR = TWCR | 0xC0; //clear TWEA bit to ACK the incoming byte
+      TWCR = (1<<TWINT) | (1<<TWEA)| (1<<TWEN); //clear TWEA bit to ACK the incoming byte
       break;
     case 0x88:  //own call address received, data ready, NACKED
       break;
@@ -35,23 +35,23 @@ ISR(TWI_vect){
     case 0x98:  //general call address received, data ready, NACKED
       break;
     case 0xA0:  //STOP condition or repeated START condition received
-      TWCR = TWCR | 0xC0 & 0xCF; //set the TWEA bit, clear STA and STO to switch to not-addressed-listening
+      TWCR = (1<<TWINT) | (1<< TWEA) | (1<<TWEN); //set the TWEA bit, clear STA and STO to switch to not-addressed-listening
       break;
     //slave transmitter codes
     case 0xA8:  //own address has been received, ACK returned, need data byte.
       TWDR = twi_data_byte;
-      TWCR = (1 << TWINT) | (0 << TWEA);  //this is the last data byte so TWEA should be 0
+      TWCR = (1 << TWINT) | (0 << TWEA)| (1<<TWEN);  //this is the last data byte so TWEA should be 0
       break;
-    case 0xB0:  //arbitration lost, then addressed for read
+    case 0xB0:  //arbitration lost, then addressed for read. Not needed since we only operate as slave
       break;
     case 0xB8:  //data byte transmitted, ACK received, load next byte.
       //not needed when only working one-byte
       break;
     case 0xC0:  //data byte transmitted, NOT ACK received, stop
-      TWCR = (1 << TWINT) | (1 << TWEA);  //switch to not addressed slave mode, will recognise own address
+      TWCR = (1 << TWINT) | (1 << TWEA)| (1<<TWEN);  //switch to not addressed slave mode, will recognise own address
       break;
     case 0xC8:  //last data byte transmitted, ACK received.
-      TWCR = (1 << TWINT) | (1 << TWEA);  //switch to not addressed slave mode, will recognise own address
+      TWCR = (1 << TWINT) | (1 << TWEA)| (1<<TWEN);  //switch to not addressed slave mode, will recognise own address
       break;
 
     default:

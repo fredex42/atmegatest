@@ -11,3 +11,4 @@ flash_test:
 clean:
 	make clean -C twi_test
 	make clean -C flash_test
+	make clean -C third_test

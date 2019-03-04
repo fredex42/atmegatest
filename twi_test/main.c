@@ -12,7 +12,7 @@ AVR_MCU(F_CPU, "atmega48");
 //tell simavr to record the output of PORTC for gtkwave.
 //this outputs a file called gtkwave_trace.vcd during the simulation run
 const struct avr_mmcu_vcd_trace_t _mytrace[]  _MMCU_ = {
-	{ AVR_MCU_VCD_SYMBOL("PORTC"), .what = (void*)&PORTC, },
+	{ AVR_MCU_VCD_SYMBOL("PORTD"), .what = (void*)&PORTD, },
 	{ AVR_MCU_VCD_SYMBOL("TWCR"), .what = (void*)&TWCR, },
 	{ AVR_MCU_VCD_SYMBOL("TWDR"), .what = (void*)&TWDR, },
 	{ AVR_MCU_VCD_SYMBOL("TWAR"), .what = (void*)&TWAR, }
