@@ -42,6 +42,6 @@ int main(void){
     if(c>0xF0) c=0;
     //PORTD=c;
     set_pwm_2a(c);
-    //_delay_ms(1000);
+    _delay_ms(1000);
   }
 }
