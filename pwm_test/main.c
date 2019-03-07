@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>  //for sei();
 #include <avr/sleep.h>
 
-#define F_CPU 8000000UL
+#define F_CPU 2000000UL
 #include <util/delay.h>
 
 #ifdef SIMULATOR
@@ -41,7 +41,7 @@ int main(void){
     _delay_ms(500);
     if(c>0xF0) c=0;
     //PORTD=c;
-    set_pwm_2a(c);
-    _delay_ms(1000);
+    set_pwm_2b(c);
+    //_delay_ms(1000);
   }
 }

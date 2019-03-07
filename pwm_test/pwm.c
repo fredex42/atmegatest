@@ -15,7 +15,8 @@ void setup_pwm_2(){
   TIMSK2 = 0;
 
   //clock select internal (128kHz) with 1024 divider => 125Hz or 8ms total
-  TCCR2B = 0x5;
+  //clock isn't 128! trying a /8 divider instead
+  TCCR2B = 0x2;
   //set control registers. Inverting mode fast PWM on channels A and B
   TCCR2A = 0xF1;
 }
