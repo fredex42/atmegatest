@@ -69,7 +69,7 @@ ISR(TWI_vect){
 
     default:
       //PORTD=0xFF;
-      TWCR = (1 << TWINT) | (1 << TWEA)| (1<<TWEN);
+      TWCR = TWCR | (1 << TWINT) | (1 << TWEA);
       break;
   }
 }
