@@ -2,7 +2,7 @@
 #include <avr/interrupt.h>  //for sei();
 #include <avr/sleep.h>
 
-#define F_CPU 128000000UL
+#define F_CPU 200000UL
 #include <util/delay.h>
 
 #ifdef SIMULATOR
