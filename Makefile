@@ -8,6 +8,9 @@ pwm_test:
 twi_test:
 	make -C twi_test
 
+twi_test_two:
+	make -C twi_test_two
+
 twi_pwm_test:
 	make -C twi_pwm_test
 
@@ -19,6 +22,7 @@ adc_test:
 
 clean:
 	make clean -C twi_test
+	make clean -C twi_test_two
 	make clean -C flash_test
 	make clean -C third_test
 	make clean -C pwm_test
