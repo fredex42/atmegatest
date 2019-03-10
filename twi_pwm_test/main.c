@@ -31,7 +31,7 @@ int main(void){
   setup_twi(I2CADDRESS);
 	PORTD = 0x01; //first LED when TWI is initialised
 
-	setup_pwm_2();
+	setup_pwm_0();
 	PORTD = 0x02;	//second LED when PWM is initialised
 
   sei();
@@ -39,8 +39,9 @@ int main(void){
 	PORTD = 0x03;	//both LEDs when interrups enabled
 
   while(1){
-		PORTD = twi_data_byte;	//this is initilised to 0x04. i.e., third LED/ near-full power
-		set_pwm_2b(twi_data_byte);
+		//PORTD = twi_data_byte;	//this is initilised to 0x04. i.e., third LED/ near-full power
+		set_pwm_0b(twi_data_byte);
+		set_pwm_0a(~twi_data_byte);
     set_sleep_mode(SLEEP_MODE_IDLE);
     sleep_mode();
   }

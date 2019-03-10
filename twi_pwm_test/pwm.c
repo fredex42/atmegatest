@@ -28,3 +28,31 @@ void set_pwm_2a(uint8_t value){
 void set_pwm_2b(uint8_t value){
   OCR2B = value;
 }
+
+/**
+initialise PWM channel 0
+*/
+void setup_pwm_0(){
+  //set data direction to OUT for port b pins 1,2 (OCR0A/OCR0B);
+  DDRD = DDRD | (1<<DDD6) | (1<<DDD5);
+
+  OCR0A = 0xAA; //channel A half-power
+  OCR0B = 0x01; //channel B 99% power
+
+  TCNT0 = 0;
+  TIMSK0 = 0;
+
+  //clock select internal (128kHz) with 1024 divider => 125Hz or 8ms total
+  //clock isn't 128! trying a /8 divider instead
+  TCCR0B = 0x2;
+  //set control registers. Inverting mode fast PWM on channels A and B
+  TCCR0A = 0xF1;
+}
+
+void set_pwm_0a(uint8_t value){
+  OCR0A = value;
+}
+
+void set_pwm_0b(uint8_t value){
+  OCR0B = value;
+}

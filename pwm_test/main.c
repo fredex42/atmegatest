@@ -27,7 +27,7 @@ int main(void){
 	DDRD = 0xFF;	//set all pins to output
 	PORTD = 0x0;	//use PORTD to trace execution.
 
-  setup_pwm_2();
+  setup_pwm_0();
 	PORTD = 0x01; //first LED when TWI is initialised
 
   sei();
@@ -41,7 +41,7 @@ int main(void){
     _delay_ms(500);
     if(c>0xF0) c=0;
     //PORTD=c;
-    set_pwm_2b(c);
+    set_pwm_0a(c);
     //_delay_ms(1000);
   }
 }
