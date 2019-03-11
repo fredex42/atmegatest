@@ -1,8 +1,9 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
+#include "timer.h"
 
-#define F_CPU 128000000UL
+#define F_CPU 128000UL
 #include <util/delay.h>
 
 #include "adc.h"
@@ -12,8 +13,10 @@ int main(void){
   PORTD=0;
   adc_setup();
   PORTD=0x1;
+  timer_setup();
+  PORTD=0x02;
   sei();
-  PORTD=0x2;
+  PORTD=0x3;
 
   while(1){
     adc_enable();
@@ -22,6 +25,8 @@ int main(void){
     sleep_mode();
     PORTD = adc_get_last_value(); //output the result to PORTD
     adc_disable();
-    _delay_ms(1000);
+    //sleep until next timer ping
+    set_sleep_mode(SLEEP_MODE_IDLE);
+    sleep_mode();
   }
 }

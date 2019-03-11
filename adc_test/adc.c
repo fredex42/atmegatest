@@ -21,7 +21,7 @@ void adc_setup(){
 void adc_enable(){
   //disable for power-reduction ADC
   PRR = PRR & ~(1 << PRADC);
-  //enable ADC
+  //enable ADC and ADC interrupt
   ADCSRA = ADCSRA | (1<<ADEN) | (1<<ADIE);
   flags = flags & ~ST_DISABLE;
 }
