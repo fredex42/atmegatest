@@ -24,6 +24,8 @@ const struct avr_mmcu_vcd_trace_t _mytrace[]  _MMCU_ = {
 #include "twi.h"
 #include "pwm.h"
 
+char disabled_flag;
+
 int main(void){
 	DDRD = 0xFF;	//set all pins to output
 	PORTD = 0x0;	//use PORTD to trace execution.
@@ -39,9 +41,17 @@ int main(void){
 	PORTD = 0x03;	//both LEDs when interrups enabled
 
   while(1){
-		//PORTD = twi_data_byte;	//this is initilised to 0x04. i.e., third LED/ near-full power
-		set_pwm_0b(twi_data_byte);
-		set_pwm_0a(~twi_data_byte);
+		if(twi_data_byte<0x10){	//below this there is not enough power to turn the motor anyway
+			disabled_flag=1;
+			disable_pwm_0();
+		} else {
+			if(disabled_flag){
+				disabled_flag=0;
+				enable_pwm_0();
+			}
+			set_pwm_0b(twi_data_byte);
+			set_pwm_0a(~twi_data_byte);
+		}
     set_sleep_mode(SLEEP_MODE_IDLE);
     sleep_mode();
   }

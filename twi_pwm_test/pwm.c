@@ -44,9 +44,23 @@ void setup_pwm_0(){
 
   //clock select internal (128kHz) with 1024 divider => 125Hz or 8ms total
   //clock isn't 128! trying a /8 divider instead
-  TCCR0B = 0x2;
+  TCCR0B = 0x3;
   //set control registers. Inverting mode fast PWM on channels A and B
   TCCR0A = 0xF1;
+}
+
+/**
+disable clock source for pwm0, thereby turning it off withut removing other settings
+*/
+void disable_pwm_0()
+{
+  //TCCR0B = TCCR0B & (~0x04);
+  TCCR0B = 0;
+}
+
+void enable_pwm_0()
+{
+  TCCR0B = 0x3;
 }
 
 void set_pwm_0a(uint8_t value){
