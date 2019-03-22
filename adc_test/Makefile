@@ -13,7 +13,7 @@ main.o: main.c adc.h
 	avr-gcc -g -Os -mmcu=$(MMCU_TYPE) $(CFLAGS) -c main.c
 
 adc_test.elf: adc.o main.o timer.o
-	avr-gcc -g -mmcu=$(MMCU_TYPE) -o adc_test.elf main.o adc.o
+	avr-gcc -g -mmcu=$(MMCU_TYPE) -o adc_test.elf main.o adc.o timer.o
 
 adc_test.hex: adc_test.elf
 	avr-objcopy -j .text -j .data -O ihex adc_test.elf adc_test.hex

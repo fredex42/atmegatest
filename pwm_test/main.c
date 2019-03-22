@@ -37,8 +37,8 @@ int main(void){
   uint8_t c=0;
 
   while(1){
-    c+=0x04;
-    _delay_ms(500);
+    c+=0x02;
+    _delay_ms(200);
     if(c>0xF0) c=0;
     //PORTD=c;
     set_pwm_0a(c);
