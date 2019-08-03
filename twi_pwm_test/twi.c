@@ -4,6 +4,7 @@
 #define F_CPU 2000000UL
 #include <util/delay.h>
 
+#define I2CADDRESS 0x03
 #include "twi.h"
 
 int8_t twi_data_byte=0x10;  //initial value, so something shows up on the port (third LED lit)
@@ -73,9 +74,10 @@ ISR(TWI_vect){
   }
 }
 
-void setup_twi(int8_t myaddress){
+void setup_twi(){
   //see p. 223 of datasheet
   //set up own address, and respond to global as well
+  int8_t myaddress = I2CADDRESS;
   int8_t respondglobal = 0x00;
 
   TWAR = (myaddress << 1) | (respondglobal && 0x01);

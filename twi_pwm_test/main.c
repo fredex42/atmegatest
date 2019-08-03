@@ -23,6 +23,7 @@ const struct avr_mmcu_vcd_trace_t _mytrace[]  _MMCU_ = {
 
 #include "twi.h"
 #include "pwm.h"
+#include "sensor_gpi.h"
 
 char disabled_flag;
 
@@ -36,6 +37,8 @@ int main(void){
 	setup_pwm_0();
 	PORTD = 0x02;	//second LED when PWM is initialised
 
+	setup_sensor_gpi();
+	
   sei();
 
 	PORTD = 0x03;	//both LEDs when interrups enabled
@@ -49,8 +52,8 @@ int main(void){
 				disabled_flag=0;
 				enable_pwm_0();
 			}
-			set_pwm_0b(twi_data_byte);
-			set_pwm_0a(~twi_data_byte);
+			//set_pwm_0b(twi_data_byte);
+			set_pwm_0a(twi_data_byte);
 		}
     set_sleep_mode(SLEEP_MODE_IDLE);
     sleep_mode();
