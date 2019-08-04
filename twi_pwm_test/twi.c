@@ -7,7 +7,7 @@
 #define I2CADDRESS 0x03
 #include "twi.h"
 
-int8_t twi_data_byte=0x10;  //initial value, so something shows up on the port (third LED lit)
+int8_t twi_data_byte=0x28;  //initial value, so something shows up on the port (third LED lit)
 
 //see https://www.nongnu.org/avr-libc/user-manual/group__avr__interrupts.html
 //service the TWI (===I2C) interrupt

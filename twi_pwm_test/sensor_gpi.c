@@ -1,4 +1,6 @@
 #include <avr/io.h>
+#define F_CPU 200000UL
+#include <util/delay.h>
 #include "sensor_gpi.h"
 
 void setup_sensor_gpi()
@@ -6,7 +8,7 @@ void setup_sensor_gpi()
   //sensor is on PORTC pin 0
   DDRC = 0x00;  //configure port C as output.
   PORTC = 0x01; //pull-up on pin 0
-  __no_operation(); //delay 1 clockcycle as per datasheet
+  _delay_ms(50); //delay 1 clockcycle as per datasheet, bodged for time being
 }
 
 /**
