@@ -3,7 +3,8 @@
 
 int8_t timer_wakeup=0;
 
-//we are only using the timer for wake-up, so we don't need anything in the handler here
+//we are only using the timer for wake-up, so we don't need anything in the handler here.
+//all three interrupt handlers must be defined otherwise we get spurious resets as the counter runs
 ISR(TIMER0_COMPA_vect){
   timer_wakeup=1;
 }
@@ -25,6 +26,5 @@ timer_setup(){
 
   //configure timer 0 for Clear Timer on Count (CTC) mode
   TCCR0A = (1<<WGM01);
-  //TCCR0B = (1<<CS01); //divide by 8.  Next option is 64!
   TCCR0B = (1<<CS02);  //divide by 256
 }

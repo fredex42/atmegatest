@@ -23,22 +23,16 @@ int main(void){
     adc_enable();
     rv=adc_start_conv(0);
     if(rv!=0){
-      PORTD = rv;
+      PORTD = 0x0F | rv;
       break;
     };  //do a conversion on channel 0, sleep while it is in progress
-    //PORTD=0x04;
-    //_delay_ms(100);
     set_sleep_mode(SLEEP_MODE_IDLE);
     sleep_mode();
-    //PORTD=0x05;
     PORTD = adc_get_last_value(); //output the result to PORTD
     adc_disable();
-    //_delay_ms(500);
-    //PORTD=0x06;
     //sleep until next timer ping
     set_sleep_mode(SLEEP_MODE_IDLE);
     sleep_mode();
-    //timer_wakeup=0;
   }
 
   cli();
