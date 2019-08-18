@@ -23,6 +23,8 @@ int main(void){
   DDRD = 0xFF;                       // initialize port C
 	newvalue=0x01;
 
+	PORTD=0xFF;
+	_delay_ms(10000);
   while(1)
   {
       // // LED on
@@ -33,7 +35,7 @@ int main(void){
       // PORTD = 0b00000000;            // PC0 = Low = 0v
 			if(direction==0){
 				newvalue = newvalue << 1;
-				if(newvalue>=(1<<6)) direction=1;
+				if(newvalue==(1<<6)) direction=1;
 			} else {
 				newvalue = newvalue >> 1;
 				if(newvalue==0x01) direction=0;
